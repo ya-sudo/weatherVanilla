@@ -1,0 +1,18 @@
+h1,
+h6 {
+  margin-bottom: 0;
+}
+a {
+  text-decoration: none;
+}
+
+.col-nameDay,
+.weatherInformation {
+  color: #868586;
+}
+.temperature {
+  font-size: 60px;
+}
+.gradiIcone {
+  padding-top: 20px;
+}
