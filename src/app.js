@@ -7,6 +7,9 @@ let conditionDescription = document.querySelector("#conditionDescription");
 let h6 = document.querySelector("h6");
 let icon = document.querySelector("#icon");
 
+let fahrenheit = document.querySelector("#fahrenheit");
+let celsius = document.querySelector("#celsius");
+
 let formSearchCity = document.querySelector("#formSearchCity");
 formSearchCity.addEventListener("submit", nameCity);
 
@@ -39,20 +42,31 @@ function nameCity(respons) {
     let cityIcon = event.data.daily[0].condition.icon_url;
     icon.setAttribute("src", `${cityIcon}`);
 
+    fahrenheit.addEventListener("click", setFahrenheit);
+    celsius.addEventListener("click", setCelsius);
+
     h6.innerHTML = `${day} ${hour}:${minute} `;
     h1.innerHTML = name;
     conditionDescription.innerHTML = cityconditionDescription;
-    temperature.innerHTML = `${Math.round(cityTemperature)}`;
     humidity.innerHTML = `Humidity: ${cityHumidity}%`;
     wind.innerHTML = `Wind: ${cityWind} km/h`;
+
+    // temperature
+    let celsTemperature = `${Math.round(cityTemperature)}`;
+    temperature.innerHTML = celsTemperature;
+    function setFahrenheit() {
+      let fahTemperature = Math.round((cityTemperature * 9) / 5 + 32);
+      temperature.innerHTML = fahTemperature;
+    }
+    function setCelsius() {
+      temperature.innerHTML = celsTemperature;
+    }
   }
 
+  //call axios
   let apiKey = "6635c3cd0efte3e3f8002aa10416bo29";
   query = cityInput.value;
 
   let apiCall = `https://api.shecodes.io/weather/v1/forecast?query=${query}&key=${apiKey}`;
   axios.get(apiCall).then(newCity);
 }
-
-/* formSearchCity.addEventListener("submit", nameCity);
-console.log(formSearchCity.value); */
