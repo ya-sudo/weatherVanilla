@@ -13,26 +13,52 @@ let celsius = document.querySelector("#celsius");
 let formSearchCity = document.querySelector("#formSearchCity");
 formSearchCity.addEventListener("submit", nameCity);
 
-function dispayWeek() {
+function getCoordinates(coordinate) {
+  let apiKey = "25fad9f7e87157d33dde0f82ab269ee8";
+  let test = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinate.lat}&lon=${coordinate.lon}&appid=${apiKey}`;
+  let apiCallCoordinate = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&appid=${apiKey}&units=metric`;
+  console.log(apiCallCoordinate);
+  axios.get(apiCallCoordinate).then(dispayWeek);
+}
+
+function creatDay(dateDay) {
+  let date = new Date(dateDay * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tues", "Wedn", "Thurs", "Fri", "Satur"];
+  return days[day];
+}
+
+function dispayWeek(respons) {
+  let weekDay = respons.data.daily;
+  console.log(respons.data.daily);
   let theWeek = document.querySelector("#theweek");
 
   let theWeekElemen = "";
-  theWeekElemen =
-    theWeekElemen +
-    `
-    <div class="row">
-          <div class="col-2">
-            <div>giorno</div>
-            <img src="" alt="" />
-            <div>
-              <span>tep1</span>
-              <span>tep2</span>
-            </div>
-          </div>
-        </div>`;
+
+  let days = ["lu", "ma", "mer"];
+  weekDay.forEach(function (dayName, index) {
+    if (index < 6) {
+      theWeekElemen =
+        theWeekElemen +
+        `
+        
+              <div class="col-2">
+                <div>${creatDay(dayName.dt)}</div>
+
+
+                <img src=" http://openweathermap.org/img/wn/${
+                  dayName.weather[0].icon
+                }@2x.png" alt="" />
+                <div>
+                  <span>min ${dayName.temp.min}°</span>
+                  <span>max ${dayName.temp.max}°</span>
+                </div>
+              </div>
+            `;
+    }
+  });
   theWeek.innerHTML = theWeekElemen;
 }
-console.log(dispayWeek());
 
 function nameCity(respons) {
   respons.preventDefault();
@@ -78,13 +104,14 @@ function nameCity(respons) {
     // temperature
     let celsTemperature = `${Math.round(cityTemperature)}`;
     temperature.innerHTML = celsTemperature;
-    /*  function setFahrenheit() {
-      let fahTemperature = Math.round((cityTemperature * 9) / 5 + 32);
-      temperature.innerHTML = fahTemperature;
-    } */
+
     function setCelsius() {
       temperature.innerHTML = celsTemperature;
     }
+
+    getCoordinates(event.data.coord);
+    let lat = event.data.coord.lat;
+    let lon = event.data.coord.lon;
   }
 
   //call axios
