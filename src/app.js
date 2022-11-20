@@ -42,7 +42,7 @@ function nameCity(respons) {
     let cityIcon = event.data.daily[0].condition.icon_url;
     icon.setAttribute("src", `${cityIcon}`);
 
-    fahrenheit.addEventListener("click", setFahrenheit);
+    /*  fahrenheit.addEventListener("click", setFahrenheit); */
     celsius.addEventListener("click", setCelsius);
 
     h6.innerHTML = `${day} ${hour}:${minute} `;
@@ -54,10 +54,10 @@ function nameCity(respons) {
     // temperature
     let celsTemperature = `${Math.round(cityTemperature)}`;
     temperature.innerHTML = celsTemperature;
-    function setFahrenheit() {
+    /*  function setFahrenheit() {
       let fahTemperature = Math.round((cityTemperature * 9) / 5 + 32);
       temperature.innerHTML = fahTemperature;
-    }
+    } */
     function setCelsius() {
       temperature.innerHTML = celsTemperature;
     }
